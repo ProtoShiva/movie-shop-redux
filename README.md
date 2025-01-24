@@ -141,3 +141,26 @@ so if we directly mutate the state directly, then redux won't know if state is c
 const initialState = {
 cart:{}, //try not to make array to store items because in array to search smth, you have to loop whereas in object it is O(1) time
 }
+
+- when you dispatch an action, redux passes it in all reducers. that is why do not create same name actions
+
+but this can be useful also to create same actions name, depends on use case. if we want and action to trigger another action, then we can do so.
+
+- Redux encourages for using single 'store'
+  you can use Zustand and other libraries if you want to work with multiple store
+
+- avoid putting form data in Redux
+
+# Redux Dev Tool
+
+in redux to enable redux dev tool, use a package
+import { composeWithDevTools } from "@redux-devtools/extension"
+and pass as an argument in createStore()
+
+basically you can control your actions, you can do time travel and know which action was fired when
+
+'Trace' option. here you can see your code
+
+to enable this use composeWithDevTools({trace:true, limit:10})
+
+**thunk** it is a function which execute a function after some delay
