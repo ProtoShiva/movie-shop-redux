@@ -23,9 +23,7 @@ function App() {
       <div>
         <Nav onCartClick={handleCartClick} />
         {showCart && <Cart />}
-        {!showCart && (
-          <List movies={network.data} onCartClick={handleCartClick} />
-        )}
+        {!showCart && <List onCartClick={handleCartClick} />}
       </div>
     </>
   )

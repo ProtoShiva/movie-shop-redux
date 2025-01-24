@@ -1,27 +1,31 @@
 import "./style.css"
 import Delete from "../../assets/delete.png"
 import Checkout from "../../assets/checkout.png"
+import { useDispatch, useSelector } from "react-redux"
+import { removeFromCart } from "../../store/actions/movie-list"
 
 function Cart() {
-  const cart2 = [{ id: 1, title: "1", amount: 100 }]
+  const basket = useSelector((state) => state.cart)
+  let sum = 0
+
+  const dispatch = useDispatch()
 
   const total = 30000
 
-  const cart = {
-    id: {
-      count: 1,
-      title: "Hellfire",
-      thumbnail:
-        "https://media.wired.com/photos/5bdb5fff134e755d734f7eeb/master/pass/Dany-Jon-GOT.jpg",
-    },
+  const handleDelete = (id) => {
+    return () => {
+      dispatch(removeFromCart(id))
+    }
   }
 
   return (
     <div className="card list">
-      {Object.keys(cart).map((key) => {
-        const product = cart[key]
+      {Object.keys(basket).map((key) => {
+        const cart = basket[key]
+        const product = cart.value
+        console.log(product)
 
-        const { title, thumbnail, count, amount } = product
+        const { title, thumbnail, thumbnail_width: amount } = product
 
         return (
           <div className="movi-cart" key={thumbnail}>
@@ -31,17 +35,17 @@ function Cart() {
             </div>
 
             <div className="calu">
-              x {count} = {count * amount}
+              x {cart.count} = {cart.count * amount}
             </div>
 
-            <button onClick={() => {}} className="btn">
+            <button onClick={handleDelete(key)} className="btn">
               Remove <img src={Delete} height="22px" />
             </button>
           </div>
         )
       })}
 
-      <h4>Total: {total}</h4>
+      <h4>Total: {sum}</h4>
 
       <button className="btn">
         Checkout <img height="22px" src={Checkout} />

@@ -48,7 +48,7 @@ developer will tell redux what to change and redux will manage it and when it ge
 
 it also avoids prop drilling
 
-website vs webApp (the data flow in webApp is large compared to website, twitter, inta is webapp. medium, simple blog site is website)
+website vs webApp (the data flow in webApp is large compared to website, twitter, insta is webapp. medium, simple blog site is website)
 
 we have store (an object)
 
@@ -136,30 +136,8 @@ return oldState
 
 so if we directly mutate the state directly, then redux won't know if state is changed or not because the reference is same
 
+**useSelector(state => state) here we have subscribed to whole store, whenever there is some change in store then UI gets changed. This is why it is said don't subscribe to whole store but a part of a store which a particular state. Eg: useSelector(state => state.cart)**
+
 const initialState = {
-cart:{}, //try not to make array to store items
+cart:{}, //try not to make array to store items because in array to search smth, you have to loop whereas in object it is O(1) time
 }
-
-if (action.type === "UPDATE_CART") {
-const oldState = { ...state }
-oldState.cart.push(action.value)
-return oldState
-}
-
-above you will think that you have changed cart and that is why it is showing in ui.
-
-useSelector() detects changes in store, if happen then UI changes.
-
-oldState.cart.push(value) // this won't work as cart array is not changing
-
-oldState.cart = [...oldState.cart, action.value] //this will work
-
-and this is why
-don't do this const movies = useSelector(function(state){
-return state
-})
-
-instead do
-const movies = useSelector(function(state){
-return state.cart
-})

@@ -1,52 +1,54 @@
-import { act } from "react";
-
 const initialState = {
+  cart: {},
   movies: [],
-};
-
-function transformMovies() {}
+}
 
 function movieListReducer(state = initialState, action) {
-  const { value } = action;
-  // console.log("Movie Reducer", action.type);
+  const { value } = action
   switch (action?.type) {
     case "UPDATE_LOADER": {
-      console.log(action);
-      const oldState = { ...state };
-      oldState.isLoading = action.value;
-      return oldState;
+      const oldState = { ...state }
+      oldState.isLoading = action.value //notice i don't have to set initialstate 'isLoading', i can set the object key on the reducer
+      return oldState
     }
-
     case "UPDATE_ERROR": {
-      const oldState = { ...state };
-      oldState.error = action.value;
-      return oldState;
+      const oldState = { ...state }
+      oldState.isError = action.value
+      return oldState
     }
-
     case "UPDATE_DATA": {
-      console.log(action);
-      const oldState = { ...state };
-      oldState.movies = action.value;
-      return oldState;
+      const oldState = { ...state }
+      oldState.movies = action.value
+      return oldState
     }
 
-    case "REMOVE_CART": {
-      //console.log(action);
-      const oldState = { ...state };
-      // console.log(action.value, oldState);
-      oldState.movies = oldState.movies.map((d) => {
-        if (d.href === action.value) {
-          d.discount = "100%";
-        }
+    case "UPDATE_CART": {
+      const oldState = { ...state }
+      oldState.cart = { ...oldState.cart }
+      const key = value["href"]
+      if (oldState.cart[key]?.count) {
+        oldState.cart[key].count += 1
+      } else {
+        oldState.cart[key] = {}
+        oldState.cart[key].count = 1
+        oldState.cart[key].value = value
+      }
+      return oldState
+    }
 
-        return d;
-      });
-      return oldState;
+    case "REMOVE_CART_ITEM": {
+      const oldState = { ...state }
+      const oldCart = { ...oldState.cart }
+      delete oldCart[value]
+      oldState.cart = { ...oldCart }
+      return oldState
     }
 
     default:
-      return state;
+      return state
   }
+
+  return state
 }
 
-export default movieListReducer;
+export default movieListReducer
