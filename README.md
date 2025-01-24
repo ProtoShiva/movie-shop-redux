@@ -164,3 +164,39 @@ basically you can control your actions, you can do time travel and know which ac
 to enable this use composeWithDevTools({trace:true, limit:10})
 
 **thunk** it is a function which execute a function after some delay
+
+# Redux ToolKit (RTK)
+
+though we know that store in redux is an object which holds all of our application data. but we should never put all our data in store alltogether , rather we should split the data into branches, which means we should make multiple reducer function.
+
+redux don't recommend deep clone as it will bring unnecessary re-renders
+
+->Pain points of redux
+
+1. too much boiler plate, writing actions, make folders
+2. we cannot make api call, need additional library to perform async action
+3. dev tools are not provided
+4. combine reducers function to use multiple reducers
+5. accidently mutating state, which means directly mutating state and react-redux won't give you any warning
+
+immer.js is used to create immutable objects in js and RTK internally uses this to make your work easy
+
+immer.js might be using getter setters , proxy objects to achieve immutability
+state.movie = action.payload // this line is doing so much bts
+
+const store = configureStore({
+devTools: true, // default true,
+trace: true, // default false prod me onn mat karna
+reducer: {
+movies: moviesReducer,
+cart: cartReducer,
+},
+// middleware: function (previousMiddlewares) {
+// // [...previousMiddlewares(), []];
+// previousMiddlewares().concat([]);
+// // you have to return a array from here
+// },
+preloadedState: {},
+});
+
+preloadedState: data you want to show on load

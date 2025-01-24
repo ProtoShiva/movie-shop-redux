@@ -7,6 +7,7 @@ import {
   updateError,
   updateLoader,
 } from "../store/actions/movie-list"
+import { updateMoviesAction } from "../store2/reducers/movies"
 
 function useNetwork() {
   const dispatch = useDispatch()
@@ -22,6 +23,7 @@ function useNetwork() {
         .then((data) => {
           //console.log(List);
           dispatch(updateData(List))
+          dispatch(updateMoviesAction(List))
         })
         .catch((e) => {
           dispatch(updateError("Error while fetching data"))
