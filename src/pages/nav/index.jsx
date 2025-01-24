@@ -5,7 +5,7 @@ import ReactPNG from "../../assets/react.webp"
 import { useSelector } from "react-redux"
 
 function Nav({ onCartClick }) {
-  const cart = useSelector((state) => state.cart)
+  const cart = useSelector((state) => state.myCart.cart)
 
   let cartCount = 0
 

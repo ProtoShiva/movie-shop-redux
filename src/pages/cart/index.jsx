@@ -2,10 +2,10 @@ import "./style.css"
 import Delete from "../../assets/delete.png"
 import Checkout from "../../assets/checkout.png"
 import { useDispatch, useSelector } from "react-redux"
-import { removeFromCart } from "../../store/actions/movie-list"
+import { removeFromCart } from "../../store/actions/cart"
 
 function Cart() {
-  const basket = useSelector((state) => state.cart)
+  const basket = useSelector((state) => state?.myCart?.cart)
   let sum = 0
 
   const dispatch = useDispatch()
@@ -23,7 +23,6 @@ function Cart() {
       {Object.keys(basket).map((key) => {
         const cart = basket[key]
         const product = cart.value
-        console.log(product)
 
         const { title, thumbnail, thumbnail_width: amount } = product
 
