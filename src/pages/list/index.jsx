@@ -1,18 +1,20 @@
 import "./style.css"
 import AddToCart from "../../assets/add.png"
 import { useDispatch, useSelector } from "react-redux"
-import { addToCart } from "../../store/actions/cart"
+// import { addToCart } from "../../store/actions/cart"
+import { updateCart } from "../../store2/reducers/cart"
 
 function List({ onCartClick }) {
   const data = [{ id: 1, title: "1", amount: 2000 }]
   const dispatch = useDispatch()
-  const movies = useSelector((state) => state?.myMovies?.movies)
-  const isLoading = useSelector((state) => state?.myMovies?.isLoading)
-  const cart = useSelector((state) => state?.myCart?.cart)
+  const movies = useSelector((state) => state?.movies?.movies)
+  const isLoading = useSelector((state) => state?.isLoading)
+  const cart = useSelector((state) => state?.cart?.cart)
 
   function handleAddToCart(movie) {
     return () => {
-      dispatch(addToCart(movie))
+      // dispatch(addToCart(movie))
+      dispatch(updateCart(movie))
     }
   }
 

@@ -200,3 +200,15 @@ preloadedState: {},
 });
 
 preloadedState: data you want to show on load
+
+# Slices
+
+now you can create action and reducer function together and more easily than using createAction() , createReducer(), builder
+
+these slices are same as those branches we talked about earlier. we need to create diff diff reducer function in redux , here in RTK we have to create diff slices
+
+slices create reducer function and action for you
+
+In redux toolkit we have unique action name which is formed by rtk , so if we have unique action names that means when we dispatch action it will go to a particular slice only where it is defined. eg cart/updateCart will go to cartSlice only.
+
+now what if you want that when one action dispatch it also affects the other slice or reducer. you cannot do that because action name is unique. for that RTK provide 'extra reducers'
