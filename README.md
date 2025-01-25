@@ -212,3 +212,85 @@ slices create reducer function and action for you
 In redux toolkit we have unique action name which is formed by rtk , so if we have unique action names that means when we dispatch action it will go to a particular slice only where it is defined. eg cart/updateCart will go to cartSlice only.
 
 now what if you want that when one action dispatch it also affects the other slice or reducer. you cannot do that because action name is unique. for that RTK provide 'extra reducers'
+
+# createAsyncThunk
+
+to manage APIs
+
+now if you want to make api call to fetch data for cart , just simply dispatch this fetchCart function from that component.
+
+dispatch(fetchCart(params))
+
+const fetchCart = createAsyncThunk('cart/fetch', (params, object)=>{
+
+the object have {rejectWithVAlue,getSTate,dispatch}
+
+// this should always return a promise
+//because slice uses the promise state to update the store.
+for eg:
+
+return axios.get()
+
+})
+
+now we have to use it in our slice. for that we have to decide what would happen if promise is rejected fullfilled or pending. this happens in extraReducers
+
+extraReducers:(builder)=>{
+builder.addCase(createProduct.pending, (state, action) => {
+state.loading = true;
+});
+
+builder.addCase(createProduct.fulfilled, (state, action) => {
+state.loading = false;
+state.createRedirect = false;
+state.createdProduct = action?.payload;
+state.serverErr = undefined;
+state.appErr = undefined;
+});
+
+builder.addCase(createProduct.rejected, (state, action) => {
+state.appErr = action?.payload?.message;
+state.serverErr = action?.payload?.message;
+state.loading = false;
+});
+}
+
+# createEntityAdaptor
+
+redux tells us to normalize our state(which means make state as objects, do not make nested objects)
+
+const todo = {
+todo: []
+}
+
+//edit by id 3
+
+const todoEdit = todos.find(t => t.id === id)
+
+the above is not recommended
+
+const todo = {
+todosById:{
+3: {name: 'work}
+}
+}
+
+const todoEdit = todos[3]
+
+createEntityAdaptor normalises for us
+so if we use createEntity to make our intialState
+like this
+{
+ids:[]
+entities:{
+
+}
+}
+
+it will give us some functions to make our work easier where we don't have to write logic to query the data or manipulate data
+
+const movieAdaptor = createEntityAdaptor()
+
+addToCart: movieAdaptor.add
+
+this is helpful when we are doing CRUD to our store
